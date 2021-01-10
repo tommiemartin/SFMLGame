@@ -1,0 +1,53 @@
+/***
+Install sfml with homebrew /usr/local/Cellar/sfml/2.5.1
+no need for "-I" flag
+use "-L" flag to point to library folders in homebrew directory
+***/
+
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "build_active",
+			"command": "/usr/bin/g++",
+			// "command": "clang++",
+			"args": [
+                // "-std=c++11",
+				// "${file}",
+				"${workspaceFolder}/main.cpp",
+				"${workspaceFolder}/Game.cpp",
+				"${workspaceFolder}/States/State.cpp",
+				"${workspaceFolder}/States/GameState.cpp",
+				"-L",
+				"/usr/local/Cellar/sfml/2.5.1/lib",
+				"-lsfml-graphics.2.5.1",
+				"-lsfml-window.2.5.1",
+				"-lsfml-system.2.5.1",
+				"-o",
+				// "${fileDirname}/${fileBasenameNoExtension}"
+				"${workspaceFolder}/Game"
+			],
+			// "options": {
+			// 	"cwd": "${workspaceFolder}"
+			// },
+			// "problemMatcher": [
+			// 	"$gcc"
+			// ],
+
+			"group": "build",
+		},
+		{
+			"label": "run",
+			"type": "shell",
+			"command": "${workspaceFolder}/Game",
+			"group": "build",
+			"dependsOn": [
+			  "build_active"
+			]
+		  }
+
+	]
+}
+
+
