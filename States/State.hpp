@@ -1,32 +1,32 @@
 #pragma once
 
-#include "SFML/Graphics.hpp"
-#include "SFML/System.hpp"
-#include "SFML/Window.hpp"
-// #include "SFML/Network.hpp"
+#include "../Entity/Entity.hpp"
 
-#include <iostream>
-#include<vector>
-
-#include <fstream>
-// #include <sstream>
-
-#include<stack>
-#include<map>
 
 class State{
 public:
-    State(sf::RenderWindow* rw);
+    State(sf::RenderWindow* window);
     virtual ~State();
 
-    virtual void updateState(const float& dt) =0;
-    virtual void renderState(sf::RenderTarget* target=nullptr) =0;
+    virtual void stateInput(const float& dt) =0;
+    virtual void stateUpdate(const float& dt) =0;
+    virtual void stateRender(sf::RenderTarget* target=nullptr) =0;
+    virtual void endState() = 0;
 
-    virtual void endState() =0;
+    void updateMousPositions();
+
+    virtual void checkQuitState();
+    const bool& getQuit() const;
+
 
 private:
     sf::RenderWindow* window;
     std::vector<sf::Texture> textures;
+    bool quit;
 
+protected:  
+    sf::Vector2i mousePosScreen;
+    sf::Vector2i mousePosWindow;
+    sf::Vector2f mousePosView; //for camera
 
 };

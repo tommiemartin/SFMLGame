@@ -1,6 +1,6 @@
 #pragma once
 
-#include "States/GameState.hpp"
+#include "States/MainMenuState.hpp"
 
 class Game{
 public:
@@ -8,7 +8,8 @@ public:
     virtual ~Game();
 
     const bool running() const;
-    void pollEvents();
+    
+    void input();
     void update();
     void updateDelta();
     void render();
@@ -17,19 +18,18 @@ public:
 private:
     sf::RenderWindow* window;
     sf::Event event;
-    
+
 
     sf::Clock deltaClock;
     float delta;
 
     std::stack<State*> states;
-
-    // sf::Vector2i mousePosWin;
-    // sf::Vector2f mousePosView;
+    std::map<std::string, int> supportedKeys; //?
 
 
     void initVariables();
     void initWindow();
     void initStates();
+    void initKeys();
 
 };

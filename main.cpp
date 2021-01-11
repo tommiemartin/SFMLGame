@@ -7,7 +7,7 @@ int main(){
     //Game Loop
     while (game.running() )
     {
-        game.pollEvents();
+        game.input();
         game.update();
         game.render();
 

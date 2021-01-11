@@ -3,7 +3,9 @@
 Game::Game(){
     this->initVariables();
     this->initWindow();
+    this->initKeys();
     this->initStates();
+
 }
 
 Game::~Game(){
@@ -13,8 +15,7 @@ Game::~Game(){
         delete this->states.top(); //delete data at pointer
         this->states.pop(); //delete pointer
     }
-
-        
+ 
 }
 
 void Game::initVariables(){
@@ -36,16 +37,18 @@ void Game::initWindow(){
         ifs >> framerate;
         ifs >> vsync;
     }
-
     ifs.close();
 
     this->window = new sf::RenderWindow(videoMode,winTitle,sf::Style::Titlebar | sf::Style::Close);
+    
     this->window->setFramerateLimit(framerate);
     this->window->setVerticalSyncEnabled(vsync);
 }
 
 void Game::initStates(){
-    this->states.push(new GameState(this->window )); 
+
+    this->states.push(new MainMenuState(this->window )); 
+    // this->states.push(new GameState(this->window )); 
 }
 
 const bool Game::running() const{
@@ -53,7 +56,45 @@ const bool Game::running() const{
 }
 
 
-void Game::pollEvents(){
+void Game::updateDelta(){
+    // how long it takes to update 1 frame
+    this->delta = this->deltaClock.restart().asSeconds();
+    // std::cout << this->delta << std::endl;
+}
+
+void Game::initKeys(){
+
+    //load from file
+    // std::ifstream ifs("Config/file.ini");
+    // if(ifs.is_open() ){
+    //     std::string key = "";
+    //     int key_value = 0;
+    //     while (ifs >> key >> key_value){
+    //         this->supportedKeys[key] = key_value;
+    //     }
+    // }
+
+    // map<K, V>
+    this->supportedKeys["Escape"] = sf::Keyboard::Key::Escape;
+    this->supportedKeys["W"] = sf::Keyboard::Key::W;
+    this->supportedKeys["A"] = sf::Keyboard::Key::A;
+    this->supportedKeys["S"] = sf::Keyboard::Key::S;
+    this->supportedKeys["D"] = sf::Keyboard::Key::D;
+
+    //debug
+    // for (auto i : this->supportedKeys){
+    //     std::cout << i.first << " " << i.second << std::endl;
+    // }
+
+}
+
+
+/***************************
+ *  EVENTS, UPDATE AND RENDER 
+ ***************************/
+
+void Game::input(){
+    //Game Window
     while (this->window->pollEvent(this->event) ){
         if(this->event.type == sf::Event::Closed){
             this->window->close();
@@ -62,22 +103,27 @@ void Game::pollEvents(){
 
 }//
 
-void Game::updateDelta(){
-    // how long it takes to update 1 frame
-    this->delta = this->deltaClock.restart().asSeconds();
-    // std::cout << this->delta << std::endl;
-}
-
-
-/***************************
- *  UPDATE AND RENDER 
- ***************************/
 
 void Game::update(){
     updateDelta();
+    
+    if(!this->states.empty()){
+        this->states.top()->stateInput(this->delta);
+        this->states.top()->stateUpdate(this->delta);
 
-    if(!this->states.empty())
-        this->states.top()->updateState(this->delta);
+
+        //switch to state run() which would have input, update, render??
+
+        if(this->states.top()->getQuit() ){
+            this->states.top()->endState();
+            delete this->states.top();
+            this->states.pop();
+        }
+    }
+    else{
+        this->window->close(); //close app if states stack is empty
+    }
+
 }
 
 void Game::render(){
@@ -85,7 +131,7 @@ void Game::render(){
     /// render ///
 
     if(!this->states.empty())
-        this->states.top()->renderState(this->window);
+        this->states.top()->stateRender(this->window);
 
 
     /// render ///
