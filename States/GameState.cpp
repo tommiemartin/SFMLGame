@@ -1,7 +1,7 @@
 #include "GameState.hpp"
 
-GameState::GameState(sf::RenderWindow* rw)
-    :   State(rw){
+GameState::GameState(sf::RenderWindow* rw, std::stack<State*>* states)
+    :   State(rw, states){
 
 }
 
@@ -16,7 +16,7 @@ void GameState::stateInput(const float& dt){
 }
 
 void GameState::stateUpdate(const float& dt){
-    
+     
 }
 
 

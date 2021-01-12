@@ -14,8 +14,8 @@ Button::Button(float x,float y, float width, float height,
     this->text.setCharacterSize(30);
 
     this->text.setPosition(
-        this->button.getPosition().x + (this->button.getPosition().x /2.f) - this->text.getGlobalBounds().width /2.f,
-        this->button.getPosition().x + (this->button.getPosition().y /2.f) - this->text.getGlobalBounds().height /2.f
+        this->button.getPosition().x + (this->button.getGlobalBounds().width  /2.f) - this->text.getGlobalBounds().width /2.f,
+        this->button.getPosition().y + (this->button.getGlobalBounds().height /2.f) - this->text.getGlobalBounds().height /2.f
     );
 
     this->idleColor   = idleColor;
@@ -49,21 +49,21 @@ void Button::update(sf::Vector2f mousePos){
     if (this->button.getFillColor() != idleColor)
         this->button.setFillColor(idleColor);
 
-        std::cout << " IDLE " << std::endl;
+        // std::cout << " IDLE " << std::endl;
 
     if(this->button.getGlobalBounds().contains(mousePos) ){
         this->button_state = BTN_HOVER;
         if (this->button.getFillColor() != hoverColor)
             this->button.setFillColor(hoverColor);
 
-            std::cout << " HOVER " << std::endl;
+            // std::cout << " HOVER " << std::endl;
 
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
             this->button_state = BTN_ACTIVE;
             if (this->button.getFillColor() != activeColor)
             this->button.setFillColor(activeColor);
 
-            std::cout << " ACTIVE " << std::endl;
+            // std::cout << " ACTIVE " << std::endl;
 
         }   
     }

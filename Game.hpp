@@ -17,15 +17,19 @@ public:
 
 private:
     sf::RenderWindow* window;
-    sf::Event event;
+    std::stack<State*> states;
 
+    std::vector<sf::VideoMode> videoModes; // never used
+    sf::ContextSettings window_settings;
+
+    sf::Event event;
 
     sf::Clock deltaClock;
     float delta;
 
-    std::stack<State*> states;
     std::map<std::string, int> supportedKeys; //?
 
+    bool fullscreen;
 
     void initVariables();
     void initWindow();

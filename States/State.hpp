@@ -5,7 +5,7 @@
 
 class State{
 public:
-    State(sf::RenderWindow* window);
+    State(sf::RenderWindow* window, std::stack<State*>* states);
     virtual ~State();
 
     virtual void stateInput(const float& dt) =0;
@@ -20,11 +20,13 @@ public:
 
 
 private:
-    sf::RenderWindow* window;
     std::vector<sf::Texture> textures;
     bool quit;
 
 protected:  
+    sf::RenderWindow* window;
+    std::stack<State*>* states; //passed by ref recieved here as pointer
+
     sf::Vector2i mousePosScreen;
     sf::Vector2i mousePosWindow;
     sf::Vector2f mousePosView; //for camera

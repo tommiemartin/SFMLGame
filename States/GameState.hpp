@@ -4,7 +4,7 @@
 
 class GameState : public State{
 public:
-    GameState(sf::RenderWindow* rw);
+    GameState(sf::RenderWindow* rw, std::stack<State*>* states);
     virtual ~GameState();
     
     void stateInput(const float& dt);

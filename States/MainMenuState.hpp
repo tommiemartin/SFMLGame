@@ -5,7 +5,7 @@
 
 class MainMenuState : public State{
 public:
-    MainMenuState(sf::RenderWindow* window);
+    MainMenuState(sf::RenderWindow* window, std::stack<State*>* states);
     virtual ~MainMenuState();
 
     void stateInput(const float& dt);
@@ -17,10 +17,10 @@ public:
 private:
     sf::RectangleShape background;
     sf::Font font;
+    std::map<std::string, Button*> buttonMap;
 
     void initFonts();
-
-    Button* test_button;
+    void initButtons();
     
 };
 

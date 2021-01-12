@@ -1,7 +1,9 @@
 #include "State.hpp"
 
-    State::State(sf::RenderWindow* rw){
+    State::State(sf::RenderWindow* rw, std::stack<State*>* states){
         this->window = rw;
+        this->states = states;
+
         this->quit = false;
     }
 
