@@ -23,8 +23,7 @@ public:
     virtual void render(sf::RenderTarget* target)=0;
 
 protected:
-    sf::Texture* texture;
     sf::Sprite* sprite;
-    void initSprite(const float x, const float y,sf::Texture* tex);
+    void initSprite(const float x, const float y, sf::Texture& tex);
 
 };

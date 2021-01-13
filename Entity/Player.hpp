@@ -3,7 +3,7 @@
 
 class Player :public Entity{
 public:
-    Player(float x, float y, sf::Texture* tex);
+    Player(float x, float y, sf::Texture& tex);
     virtual ~Player();
     void input(const float& dt);
     void update(const float& dt);
@@ -11,7 +11,14 @@ public:
 
 
 private:
-    void move(const float dir_x, const float dir_y, const float& dt);
-    float moveSpeed;
 
+    //for moving characters 
+    // void move(const float dir_x, const float dir_y, const float& dt);
+    void move(const float& dt);
+
+    sf::Vector2i direction;
+    sf::Vector2f velocity;
+    float maxVelocity;
+    float accel;
+    float decel;
 };
