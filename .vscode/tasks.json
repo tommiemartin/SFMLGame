@@ -22,6 +22,7 @@ use "-L" flag to point to library folders in homebrew directory
 				"${workspaceFolder}/States/MainMenuState.cpp",
 				"${workspaceFolder}/Button.cpp",
 				"${workspaceFolder}/Entity/Entity.cpp",
+				"${workspaceFolder}/Entity/Player.cpp",
 				"-L",
 				"/usr/local/Cellar/sfml/2.5.1/lib",
 				"-lsfml-graphics.2.5.1",

@@ -3,10 +3,11 @@
 MainMenuState::MainMenuState(sf::RenderWindow* window, std::stack<State*>* states)
 :State(window, states){
 
+    this->loadTextures();
     this->initFonts();
-    this->background.setSize(sf::Vector2f(window->getSize().x,window->getSize().y) );
-    this->background.setFillColor(sf::Color::Magenta);
+    this->initBackground();
     this->initButtons();
+    
 }
 
 MainMenuState::~MainMenuState(){
@@ -15,10 +16,24 @@ MainMenuState::~MainMenuState(){
     }
 }
 
+void MainMenuState::loadTextures(){
+    sf::Texture loader;
+    loader.loadFromFile("res/Images/background.png");
+
+    this->textures["BACKGROUND"] = loader;
+
+}
+
 void MainMenuState::initFonts(){
-    if(!this->font.loadFromFile("Resource/Fonts/BLKCHCRY.TTF") ){
+    if(!this->font.loadFromFile("Res/Fonts/BLKCHCRY.TTF") ){
         throw("ERROR::MAINMENUSTATE : COULD NOT LOAD FONT");
     }
+}
+
+void MainMenuState::initBackground(){
+    this->background.setSize(sf::Vector2f(window->getSize().x,window->getSize().y) );
+    
+    this->background.setTexture(&textures["BACKGROUND"] );
 }
 
 void MainMenuState::initButtons(){
@@ -27,9 +42,9 @@ void MainMenuState::initButtons(){
 
 }
 
-
 void MainMenuState::stateInput(const float& dt){
     this->updateMousPositions();
+
 }
 
 void MainMenuState::stateUpdate(const float& dt){
@@ -43,7 +58,7 @@ void MainMenuState::stateUpdate(const float& dt){
     }
 
     if(this->buttonMap["QuitGame"]->isPressed() ){
-        this->endState();
+        setQuit();
     }
 }
 
@@ -53,9 +68,18 @@ void MainMenuState::stateRender(sf::RenderTarget* target){
     for(auto &i :this->buttonMap){
         i.second->render(target);
     }
+
+    //Position Debug
+    sf::Text mouseText;
+    mouseText.setPosition(sf::Vector2f(this->mousePosView.x + 50.f, this->mousePosView.y) );
+    mouseText.setFont(this->font);
+    mouseText.setCharacterSize(24);
+    std::stringstream ss;
+    ss << this->mousePosView.x << " " << this->mousePosView.y;
+    mouseText.setString(ss.str() );
+    target->draw(mouseText);
+
 }  
 
 
-void MainMenuState::endState(){
-    std::cout << "ENDING MENU STATE" << std::endl;
-}
+ 

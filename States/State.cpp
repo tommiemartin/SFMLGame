@@ -20,12 +20,13 @@
         // std::cout << "STATE UPDATE MOUSE POS" << this->mousePosView.x << " " << this->mousePosView.y << std::endl;
     }
 
-    void State::checkQuitState(){
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
-            this->quit =true;
-        }
-    }
-
     const bool& State::getQuit() const{
         return this->quit;
     }
+
+    void State::setQuit(){
+        this->quit = true;
+    }
+
+
+    

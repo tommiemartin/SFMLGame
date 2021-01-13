@@ -10,11 +10,12 @@ public:
     void stateInput(const float& dt);
     void stateUpdate(const float& dt);
     void stateRender(sf::RenderTarget* target=nullptr);
-    void endState();
+
+protected:
 
 
 private:
-    Entity player;
- 
-
+    void loadTextures();
+    Player* player;
+    
 };

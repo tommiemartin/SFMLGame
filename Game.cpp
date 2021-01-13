@@ -48,7 +48,6 @@ void Game::initWindow(){
     ifs.close();
 
     this->window_settings.antialiasingLevel = anti_alias;
-    this->window = new sf::RenderWindow(videoMode,winTitle,sf::Style::Titlebar | sf::Style::Close);
     
     if (fullscreen){
             this->window = new sf::RenderWindow(videoMode,winTitle,sf::Style::Fullscreen, window_settings);
@@ -76,7 +75,7 @@ void Game::updateDelta(){
     // std::cout << this->delta << std::endl;
 }
 
-void Game::initKeys(){
+void Game::initKeys(){  // ???
 
     //load from file
     // std::ifstream ifs("Config/file.ini");
@@ -115,6 +114,9 @@ void Game::input(){
         }
     }
 
+    if(!this->states.empty())
+        this->states.top()->stateInput(this->delta);
+
 }//
 
 
@@ -122,14 +124,11 @@ void Game::update(){
     updateDelta();
     
     if(!this->states.empty()){
-        this->states.top()->stateInput(this->delta);
         this->states.top()->stateUpdate(this->delta);
-
 
         //switch to state run() which would have input, update, render??
 
         if(this->states.top()->getQuit() ){
-            this->states.top()->endState();
             delete this->states.top();
             this->states.pop();
         }

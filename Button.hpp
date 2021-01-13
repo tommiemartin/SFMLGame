@@ -37,7 +37,5 @@ private:
     sf::Color hoverColor;
     sf::Color activeColor;
 
-
-
 };
 
