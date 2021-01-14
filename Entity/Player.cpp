@@ -1,38 +1,53 @@
 #include "Player.hpp"
 
 Player::Player(float x, float y, sf::Texture& tex){
-    initSprite(x,y,tex); 
-    sprite->scale(3,3);
+    currentFrame = sf::IntRect(32,0,32,32);
+    play = false;
+    prevIndex = 0;
+
+    initSprite(x,y,tex,currentFrame); 
+    sprite->scale(4,4);
     direction = sf::Vector2i(0,0);
     velocity = sf::Vector2f(0.f,0.f);
-    maxVelocity = 200.f;
-    accel = 10.f;
-    decel = 15.f;
+    maxVelocity = 300.f;
+    accel = 20.f;
+    decel = 50.f;
+
+    // this->anim = new Animation();
+    anim_speed = 0.15f;
+
 }
 
 Player::~Player(){    
+    // delete this->anim;
 }
 
 void Player::input(const float& dt){
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) ){
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) and !sf::Keyboard::isKeyPressed(sf::Keyboard::D)  ){
         direction.x = -1;
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) ) {
+        currentFrame.top = 32;
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) and !(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) ) {
         direction.x =  1;
+        currentFrame.top = 64;
     } else{
         direction.x =  0;
     }
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) ){
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) and !sf::Keyboard::isKeyPressed(sf::Keyboard::S) ){
         direction.y = -1;
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) ) {
+        currentFrame.top = 96;
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) and !sf::Keyboard::isKeyPressed(sf::Keyboard::W) ) {
         direction.y =  1;
+        currentFrame.top = 0;
     } else{
         direction.y =  0;
     }
+
 }
 
 void Player::update(const float& dt){
     move(dt);
+    updateFrames();
 }
 void Player::render(sf::RenderTarget* target){
     target->draw(*this->sprite);
@@ -75,3 +90,41 @@ void Player::move(const float& dt){
 
     sprite->move(velocity * dt);
 }
+
+void Player::initSprite(const float x, const float y, sf::Texture& tex, sf::IntRect& rect){
+    this->sprite = new sf::Sprite(tex, rect);
+    this->sprite->setPosition(sf::Vector2f(x,y) );
+}
+
+void Player::updateFrames(){
+    if( direction.x != 0 || direction.y !=0)
+        play = true;
+    else
+        play = false;
+
+    if(play && clock.getElapsedTime().asSeconds() > anim_speed ){
+        if(currentFrame.left == 32 && prevIndex == 64){
+            currentFrame.left = 0;
+        }else{
+            prevIndex = currentFrame.left;
+            if(currentFrame.left == 64)
+                currentFrame.left -= 32;
+
+            else{
+                currentFrame.left += 32;
+            }
+        }
+        sprite->setTextureRect(currentFrame);
+        clock.restart();
+    }
+       
+       
+       
+       
+
+    
+}//
+
+
+
+

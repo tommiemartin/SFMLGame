@@ -24,6 +24,6 @@ public:
 
 protected:
     sf::Sprite* sprite;
-    void initSprite(const float x, const float y, sf::Texture& tex);
+    virtual void initSprite(const float x, const float y, sf::Texture& tex);
 
 };

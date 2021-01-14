@@ -4,7 +4,7 @@ GameState::GameState(sf::RenderWindow* rw, std::stack<State*>* states)
     :   State(rw, states){
 
     this->loadTextures();
-    player = new Player(200,200, this->textures["PLAYER_IDLE"]);
+    player = new Player(200,200, this->textures["HERO_SHEET"]);
 }
 
 GameState::~GameState(){
@@ -16,7 +16,7 @@ void GameState::loadTextures(){
     // loader.loadFromFile("res/Images/temp.png");
     // this->textures["PLAYER_IDLE"] = loader;
 
-    this->textures["PLAYER_IDLE"].loadFromFile("res/Images/temp.png");
+    this->textures["HERO_SHEET"].loadFromFile("res/Images/hero.png");
 }
 
 void GameState::stateInput(const float& dt){
