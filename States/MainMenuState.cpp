@@ -54,7 +54,7 @@ void MainMenuState::stateUpdate(const float& dt){
         i.second->update(this->mousePosView);
     }
     if(this->buttonMap["NewGame"]->isPressed() ){
-        this->states->push(new GameState(this->window, this->states));
+        this->states->push(new GameState(this->window, this->states, this->font));
     }
 
     if(this->buttonMap["QuitGame"]->isPressed() ){

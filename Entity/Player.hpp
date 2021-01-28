@@ -37,6 +37,8 @@ private:
     sf::IntRect currentFrame;
     bool play;
     int prevIndex; //to replay middle frame
+    // int width;
+    // int hFrames;
 
     void move(const float& dt);
     sf::Vector2i direction;

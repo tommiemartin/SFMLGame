@@ -13,8 +13,12 @@ public:
     virtual void stateRender(sf::RenderTarget* target=nullptr) =0;
 
     const bool& getQuit() const; //from game
+
+    void pauseState();
+    void unpauseState();
     
 private:
+ 
 
     
 protected:  
@@ -30,6 +34,7 @@ protected:
     sf::Vector2f mousePosView; //for camera
     void updateMousPositions();
 
+    bool paused;
     void setQuit();
     bool quit;
 };

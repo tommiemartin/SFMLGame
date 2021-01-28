@@ -4,7 +4,8 @@
         this->window = rw;
         this->states = states;
 
-        this->quit = false;
+        this->quit  = false;
+        this->paused = false;
     }
 
 
@@ -26,6 +27,14 @@
 
     void State::setQuit(){
         this->quit = true;
+    }
+
+    void State::pauseState(){
+        this->paused = true;
+    }
+
+    void State::unpauseState(){
+        this->paused = false;
     }
 
 
